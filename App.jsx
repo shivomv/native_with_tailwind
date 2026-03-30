@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View, useColorScheme, StatusBar, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import Icon from 'react-native-vector-icons/Feather';
 
 export default function App() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -74,10 +75,10 @@ export default function App() {
         
         {/* Simple Navigation Feel */}
         <View className="h-20 bg-white/80 dark:bg-slate-900/80 border-t border-slate-100 dark:border-slate-800 flex-row justify-around items-center px-6">
-          <NavItem label="Home" active />
-          <NavItem label="Projects" />
-          <NavItem label="Tasks" />
-          <NavItem label="Settings" />
+          <NavItem label="Home" iconName="home" isDarkMode={isDarkMode} active />
+          <NavItem label="Projects" iconName="folder" isDarkMode={isDarkMode} />
+          <NavItem label="Tasks" iconName="check-square" isDarkMode={isDarkMode} />
+          <NavItem label="Settings" iconName="settings" isDarkMode={isDarkMode} />
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
@@ -107,10 +108,15 @@ function TaskItem({ title, category, time, priority }) {
   );
 }
 
-function NavItem({ label, active = false }) {
+function NavItem({ label, iconName, isDarkMode, active = false }) {
+  const activeColor = isDarkMode ? '#60a5fa' : '#2563eb';
+  const inactiveColor = isDarkMode ? '#475569' : '#94a3b8';
+  const color = active ? activeColor : inactiveColor;
+
   return (
     <TouchableOpacity className="items-center">
       <View className={`w-1 h-1 rounded-full mb-1 ${active ? 'bg-blue-600' : 'bg-transparent'}`} />
+      <Icon name={iconName} size={22} color={color} style={{ marginBottom: 4 }} />
       <Text className={`text-xs font-semibold ${active ? 'text-blue-600 dark:text-blue-400' : 'text-slate-400 dark:text-slate-600'}`}>
         {label}
       </Text>

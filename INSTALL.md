@@ -97,3 +97,34 @@ npm start -- --reset-cache
 # And on a separate terminal:
 npm run android
 ```
+
+## Step 9: Adding Vector Icons (react-native-vector-icons)
+This setup specifically relies on `react-native-vector-icons` for modern UI icon support. This ensures compatibility and avoids Metro bundler caching issues common with ES modules.
+
+1. Install the core package:
+```bash
+npm install react-native-vector-icons
+```
+*(Note: If you run into ERESOLVE errors due to React Native versions, add `--legacy-peer-deps` to the command).*
+
+2. **Link the native font assets for Android:**
+Open `android/app/build.gradle` and append the following native font packaging config to the absolute bottom of the file:
+
+```gradle
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
+```
+
+3. **Rebuild Native Application:** 
+Fonts are a native asset in Android. You must stop your current running Metro terminal (`Ctrl + C`) and fully rebuild the `.apk` for them to successfully link:
+
+```bash
+npm run android
+```
+
+After rebuilding, you can freely import icon families like `Feather`, `MaterialIcons`, or `Ionicons` anywhere in your React Native app.
+```javascript
+import Icon from 'react-native-vector-icons/Feather';
+
+// Usage:
+<Icon name="home" size={24} color="#60a5fa" />
+```
